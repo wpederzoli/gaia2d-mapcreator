@@ -1,35 +1,57 @@
 #include "MainMenuFrame.h"
 
-wxBEGIN_EVENT_TABLE(MainMenuFrame, wxMDIParentFrame)
-    EVT_MENU(FILE_MENU_EXIT, MainMenuFrame::OnExit)
-    EVT_MENU(FILE_MENU_OPEN, MainMenuFrame::OnOpen)
+wxBEGIN_EVENT_TABLE(MainMenuFrame, wxFrame)
+    EVT_BUTTON(NEW_BUTTON_ID, MainMenuFrame::OnNew)
+    EVT_BUTTON(LOAD_BUTTON_ID, MainMenuFrame::OnLoad)
+    EVT_BUTTON(EXIT_BUTTON_ID, MainMenuFrame::OnExit)
 wxEND_EVENT_TABLE()
 
-MainMenuFrame::MainMenuFrame() : wxMDIParentFrame(NULL, wxID_ANY, "Gaia Map Creator", wxDefaultPosition, wxSize(800, 600))
+MainMenuFrame::MainMenuFrame() : wxFrame(NULL, wxID_ANY, "Gaia Map Creator", wxPoint(200, 100), wxSize(800, 600))
 {
-    m_menuBar = new wxMenuBar;
-    SetMenuBar(m_menuBar);
+    winId = 0;
+    newMapWindows = new std::stack<NewMapFrame*>();
 
-    wxMenu* fileMenu = new wxMenu;
-    fileMenu->Append(FILE_MENU_NEW, "New");
-    fileMenu->Append(FILE_MENU_OPEN, "Open");
-    fileMenu->Append(FILE_MENU_SAVE, "Save");
-    fileMenu->Append(FILE_MENU_EXIT, "Exit");
+    mainPanel = new wxPanel(this, wxID_ANY);
+    newButton = new wxButton(mainPanel, NEW_BUTTON_ID, "New map", wxDefaultPosition, wxSize(100, 50) );
+    loadButton = new wxButton(mainPanel, LOAD_BUTTON_ID, "Load map", wxDefaultPosition, wxSize(100, 50) );
+    exitButton = new wxButton(mainPanel, EXIT_BUTTON_ID, "Exit", wxDefaultPosition, wxSize(100, 50) );
 
-    m_menuBar->Append(fileMenu, "File");
+    wxBoxSizer* vSizer = new wxBoxSizer(wxVERTICAL);
+    vSizer->Add(newButton, wxSizerFlags().Center() );
+    vSizer->Add(loadButton, wxSizerFlags().Center() );
+    vSizer->Add(exitButton, wxSizerFlags().Center() );
+    mainPanel->SetSizer(vSizer);
+
+    wxBoxSizer* frameSizer = new wxBoxSizer(wxVERTICAL);
+    frameSizer->Add(mainPanel, wxSizerFlags().Center() );
+    SetSizer(frameSizer);
+
+    mainPanel->Show(true);
 };
 
 MainMenuFrame::~MainMenuFrame()
-{};
-
-void MainMenuFrame::OnOpen(wxCommandEvent& event)
-{
-    wxFileDialog* dialog = new wxFileDialog(this, "Open file");
-    dialog->Show();
+{ 
+    delete newMapWindows;
+    delete mainPanel, newButton, loadButton, exitButton;
 };
 
-void MainMenuFrame::OnExit(wxCommandEvent& event)
+void MainMenuFrame::OnNew(wxCommandEvent& evt)
 {
-    Close();
-    event.Skip();
+    NewMapFrame* nm = new NewMapFrame(this);
+    newMapWindows->push(nm);
+    winId++;
+};
+
+void MainMenuFrame::OnLoad(wxCommandEvent& evt)
+{};
+
+void MainMenuFrame::OnExit(wxCommandEvent& evt)
+{
+    while(!newMapWindows->empty() )
+    {
+        delete newMapWindows->top();
+        newMapWindows->pop();
+    }
+    
+    Close(true);
 };
