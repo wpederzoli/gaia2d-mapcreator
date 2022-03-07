@@ -7,20 +7,20 @@
 #include "commands.h"
 #include "ids.h"
 #include "NewMapFrame.h"
+#include "SetupMapFrame.h"
 
 class NewMapFrame;
 
 class MainMenuFrame : public wxFrame
 {
     private:
-        int winId;
-
         wxPanel* mainPanel;
         wxButton* newButton;
         wxButton* loadButton;
         wxButton* exitButton;
-
         std::stack<NewMapFrame*>* newMapWindows;
+
+        SetupMapFrame* setup;
 
         void OnNew(wxCommandEvent& event);
         void OnLoad(wxCommandEvent& event);

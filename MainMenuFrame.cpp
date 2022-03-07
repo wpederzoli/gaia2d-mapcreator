@@ -8,8 +8,8 @@ wxEND_EVENT_TABLE()
 
 MainMenuFrame::MainMenuFrame() : wxFrame(NULL, wxID_ANY, "Gaia Map Creator", wxPoint(200, 100), wxSize(800, 600))
 {
-    winId = 0;
     newMapWindows = new std::stack<NewMapFrame*>();
+    setup = NULL;
 
     mainPanel = new wxPanel(this, wxID_ANY);
     newButton = new wxButton(mainPanel, NEW_BUTTON_ID, "New map", wxDefaultPosition, wxSize(100, 50) );
@@ -37,9 +37,11 @@ MainMenuFrame::~MainMenuFrame()
 
 void MainMenuFrame::OnNew(wxCommandEvent& evt)
 {
-    NewMapFrame* nm = new NewMapFrame(this);
-    newMapWindows->push(nm);
-    winId++;
+    setup = new SetupMapFrame(this);
+    this->Enable(false);
+    // NewMapFrame* nm = new NewMapFrame(this);
+    // newMapWindows->push(nm);
+    // winId++;
 };
 
 void MainMenuFrame::OnLoad(wxCommandEvent& evt)
