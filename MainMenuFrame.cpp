@@ -55,3 +55,16 @@ void MainMenuFrame::OnExit(wxCommandEvent& evt)
     
     Close(true);
 };
+
+void MainMenuFrame::RemoveElementFromStack(NewMapFrame* f)
+{
+    for(int i = 0; i < newMapWindows->size(); i++)
+    {
+        NewMapFrame* n = newMapWindows->top();
+        newMapWindows->pop();
+        if(!(n == f) )
+            newMapWindows->push(n);
+        else
+            break;
+    }
+}

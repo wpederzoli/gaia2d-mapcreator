@@ -8,6 +8,8 @@
 #include "ids.h"
 #include "NewMapFrame.h"
 
+class NewMapFrame;
+
 class MainMenuFrame : public wxFrame
 {
     private:
@@ -28,7 +30,7 @@ class MainMenuFrame : public wxFrame
         MainMenuFrame();
         ~MainMenuFrame();
 
-        void RemoveWindow(NewMapFrame* f);
+        void RemoveElementFromStack(NewMapFrame* f);
         wxDECLARE_EVENT_TABLE();
 };
 

@@ -4,6 +4,8 @@
 #include <wx/wx.h>
 #include <stack>
 
+#include "MainMenuFrame.h"
+
 class NewMapFrame : wxFrame
 {
     private:
@@ -12,6 +14,7 @@ class NewMapFrame : wxFrame
         NewMapFrame(wxFrame* parent);
         ~NewMapFrame();
 
+        void OnClose(wxCloseEvent& evt);
         wxDECLARE_EVENT_TABLE();
 };
 
