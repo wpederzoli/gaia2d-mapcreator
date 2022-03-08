@@ -9,6 +9,7 @@
 #include "SetupMapFrame.h"
 
 class NewMapFrame;
+class SetupMapFrame;
 
 class MainMenuFrame : public wxFrame
 {
@@ -17,7 +18,8 @@ class MainMenuFrame : public wxFrame
         wxButton* newButton;
         wxButton* loadButton;
         wxButton* exitButton;
-        
+
+        std::stack<NewMapFrame*>* openEditors;
         SetupMapFrame* setup;
 
         void OnNew(wxCommandEvent& event);
@@ -28,6 +30,7 @@ class MainMenuFrame : public wxFrame
         MainMenuFrame();
         ~MainMenuFrame();
 
+        void AddElementToStack(NewMapFrame* f);
         void RemoveElementFromStack(NewMapFrame* f);
         wxDECLARE_EVENT_TABLE();
 };

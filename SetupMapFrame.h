@@ -3,9 +3,11 @@
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
+#include <iostream>
+#include <sstream>
 
-#include "ids.h"
-// #include "NewMapFrame.h"
+#include "MainMenuFrame.h"
+#include "NewMapFrame.h"
 
 class SetupMapFrame : public wxFrame
 {
@@ -18,12 +20,12 @@ class SetupMapFrame : public wxFrame
         wxStaticText* tileWidthLabel;
         wxSpinCtrl* tileWidthInput;
         wxStaticText* tileHeightLabel;
-        wxSpinCtrl* tileHeigthInput;
+        wxSpinCtrl* tileHeightInput;
         wxButton* acceptButton;
         wxButton* cancelButton;
-
         wxTextCtrl* mapName;
 
+        int getValueFromStr(const char str[]);
 
     public:
 

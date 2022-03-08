@@ -8,7 +8,7 @@ wxEND_EVENT_TABLE()
 
 MainMenuFrame::MainMenuFrame() : wxFrame(NULL, wxID_ANY, "Gaia Map Creator", wxPoint(200, 100), wxSize(800, 600))
 {
-    // newMapWindows = new std::stack<NewMapFrame*>();
+    openEditors = new std::stack<NewMapFrame*>();
     setup = NULL;
 
     mainPanel = new wxPanel(this, wxID_ANY);
@@ -39,9 +39,6 @@ void MainMenuFrame::OnNew(wxCommandEvent& evt)
 {
     setup = new SetupMapFrame(this);
     this->Enable(false);
-    // NewMapFrame* nm = new NewMapFrame(this);
-    // newMapWindows->push(nm);
-    // winId++;
 };
 
 void MainMenuFrame::OnLoad(wxCommandEvent& evt)
@@ -49,24 +46,29 @@ void MainMenuFrame::OnLoad(wxCommandEvent& evt)
 
 void MainMenuFrame::OnExit(wxCommandEvent& evt)
 {
-    // while(!newMapWindows->empty() )
-    // {
-    //     delete newMapWindows->top();
-    //     newMapWindows->pop();
-    // }
+    while(!openEditors->empty() )
+    {
+        delete openEditors->top();
+        openEditors->pop();
+    }
     
     Close(true);
 };
 
+void MainMenuFrame::AddElementToStack(NewMapFrame* f)
+{
+    openEditors->push(f);
+};
+
 void MainMenuFrame::RemoveElementFromStack(NewMapFrame* f)
 {
-    // for(int i = 0; i < newMapWindows->size(); i++)
-    // {
-    //     NewMapFrame* n = newMapWindows->top();
-    //     newMapWindows->pop();
-    //     if(!(n == f) )
-    //         newMapWindows->push(n);
-    //     else
-    //         break;
-    // }
+    for(int i = 0; i < openEditors->size(); i++)
+    {
+        NewMapFrame* n = openEditors->top();
+        openEditors->pop();
+        if(!(n == f) )
+            openEditors->push(n);
+        else
+            break;
+    }
 }
