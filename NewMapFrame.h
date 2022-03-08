@@ -2,7 +2,10 @@
 #define NEWMAPFRAME_H
 
 #include <wx/wx.h>
+#include <wx/aui/framemanager.h>
 #include <stack>
+
+#include "MainMenuFrame.h"
 
 class NewMapFrame : wxFrame
 {
