@@ -31,7 +31,7 @@ MainMenuFrame::MainMenuFrame() : wxFrame(NULL, wxID_ANY, "Gaia Map Creator", wxP
 
 MainMenuFrame::~MainMenuFrame()
 { 
-    // delete newMapWindows;
+    delete openEditors;
     delete mainPanel, newButton, loadButton, exitButton;
 };
 

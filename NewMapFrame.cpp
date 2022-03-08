@@ -4,8 +4,6 @@ wxBEGIN_EVENT_TABLE(NewMapFrame, wxFrame)
     EVT_CLOSE(NewMapFrame::OnClose)
 wxEND_EVENT_TABLE()
 
-NewMapFrame::NewMapFrame() : wxFrame(){};
-
 NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wxString name) : wxFrame(parent, wxID_ANY, name, wxDefaultPosition, wxSize(800, 600) )
 {
     Show(true);
