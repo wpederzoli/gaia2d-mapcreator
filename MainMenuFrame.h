@@ -6,7 +6,6 @@
 
 #include "commands.h"
 #include "ids.h"
-#include "NewMapFrame.h"
 #include "SetupMapFrame.h"
 
 class NewMapFrame;
@@ -18,8 +17,7 @@ class MainMenuFrame : public wxFrame
         wxButton* newButton;
         wxButton* loadButton;
         wxButton* exitButton;
-        std::stack<NewMapFrame*>* newMapWindows;
-
+        
         SetupMapFrame* setup;
 
         void OnNew(wxCommandEvent& event);

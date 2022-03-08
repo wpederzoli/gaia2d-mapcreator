@@ -4,6 +4,9 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 
+#include "ids.h"
+// #include "NewMapFrame.h"
+
 class SetupMapFrame : public wxFrame
 {
     private:
@@ -16,6 +19,8 @@ class SetupMapFrame : public wxFrame
         wxSpinCtrl* tileWidthInput;
         wxStaticText* tileHeightLabel;
         wxSpinCtrl* tileHeigthInput;
+        wxButton* acceptButton;
+        wxButton* cancelButton;
 
         wxTextCtrl* mapName;
 
@@ -24,6 +29,9 @@ class SetupMapFrame : public wxFrame
 
         SetupMapFrame(wxFrame* parent);
         ~SetupMapFrame();
+
+        void OnCancel(wxCommandEvent& evt);
+        void OnAccept(wxCommandEvent& evt);
 
         wxDECLARE_EVENT_TABLE();
 };
