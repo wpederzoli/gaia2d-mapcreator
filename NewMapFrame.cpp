@@ -1,26 +1,33 @@
 #include "NewMapFrame.h"
 
-wxBEGIN_EVENT_TABLE(NewMapFrame, wxFrame)
+wxBEGIN_EVENT_TABLE(NewMapFrame, wxMDIParentFrame)
     EVT_CLOSE(NewMapFrame::OnClose)
 wxEND_EVENT_TABLE()
 
-NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wxString name) : wxFrame(parent, wxID_ANY, name, wxDefaultPosition, wxSize(800, 600) )
+NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wxString name) : wxMDIParentFrame(parent, wxID_ANY, name, wxDefaultPosition, wxSize(800, 600) )
 {
-    wxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+    wxSizer* vContainer = new wxBoxSizer(wxVERTICAL);
+    wxSizer* hContainer = new wxBoxSizer(wxHORIZONTAL);
+
+    wxPanel* mapEditor = new wxPanel(this);
+    wxPanel* imageLoader = new wxPanel(this);
     
-    wxPanel* topPanel = new wxPanel(this, wxID_ANY);
-    wxPanel* bottomPanel = new wxPanel(this, wxID_ANY);
+    TileField* t = new TileField(this);
 
-    topPanel->SetBackgroundColour(12312);
-    bottomPanel->SetBackgroundColour(23238);
-    
-    wxButton* loadBtn = new wxButton(bottomPanel, wxID_ANY, "Load sprite");
+    mapEditor->SetBackgroundColour("White");
+    imageLoader->SetBackgroundColour("Purple");
 
-    sizer->Add(loadBtn, 0, wxALIGN_LEFT, 0);
-    sizer->Add(topPanel, 3, wxEXPAND, 0);
-    sizer->Add(bottomPanel, 1, wxEXPAND, 0);
+    vContainer->Add(t, 4, wxEXPAND, 0);
+    vContainer->Add(imageLoader, 1, wxEXPAND, 0);
 
-    SetSizer(sizer);
+    wxPanel* layersPanel = new wxPanel(this);
+
+    layersPanel->SetBackgroundColour("Grey");
+
+    hContainer->Add(vContainer, 4, wxEXPAND, 0);
+    hContainer->Add(layersPanel, 1, wxEXPAND, 0);
+
+    SetSizer(hContainer);
 
     Show(true);
 };

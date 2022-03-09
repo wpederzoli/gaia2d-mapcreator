@@ -2,12 +2,12 @@
 #define NEWMAPFRAME_H
 
 #include <wx/wx.h>
-#include <wx/aui/framemanager.h>
-#include <stack>
+#include <wx/glcanvas.h>
 
 #include "MainMenuFrame.h"
+#include "TileField.h"
 
-class NewMapFrame : wxFrame
+class NewMapFrame : wxMDIParentFrame
 {
     private:
 
