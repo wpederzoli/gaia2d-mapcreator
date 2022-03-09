@@ -15,7 +15,7 @@ NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wx
     TileField* t = new TileField(this);
 
     mapEditor->SetBackgroundColour("White");
-    imageLoader->SetBackgroundColour("Purple");
+    imageLoader->SetBackgroundColour("LightGreen");
 
     vContainer->Add(t, 4, wxEXPAND, 0);
     vContainer->Add(imageLoader, 1, wxEXPAND, 0);

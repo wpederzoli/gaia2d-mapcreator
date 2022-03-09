@@ -2,17 +2,22 @@
 
 TileField::TileField(wxWindow* parent) : wxScrolledWindow(parent)
 {
-    wxSizer* sizer = new wxGridSizer(10, 10, 32, 32);
+    wxSizer* container = new wxBoxSizer(wxVERTICAL);
+    wxSizer* sizer = new wxGridSizer(60, 60, 1, 1);
 
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < 3600; i++)
     {
-        wxPanel* p = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(100, 200));
-        p->SetBackgroundColour("Blue");
+        int scale =  (GetParent()->GetSize().x/10)/32;
+        wxStaticText* p = new wxStaticText(this, wxID_ANY, std::to_string(i), wxDefaultPosition, wxSize(32*scale, 32*scale) );
+        // wxPanel* p = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(32*scale, 32*scale) );
+        p->SetBackgroundColour("White");
+        p->SetForegroundColour("LightGrey");
         sizer->Add(p, 1, wxSHAPED, 0);
     }
 
-    SetSizer(sizer);
+    container->Add(sizer, 0, wxSHAPED|wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 0);
 
+    SetSizer(container);
     SetScrollRate(10, 10);
 };
 
