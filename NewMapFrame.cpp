@@ -1,33 +1,16 @@
 #include "NewMapFrame.h"
 
-wxBEGIN_EVENT_TABLE(NewMapFrame, wxMDIParentFrame)
+wxBEGIN_EVENT_TABLE(NewMapFrame, wxFrame)
     EVT_CLOSE(NewMapFrame::OnClose)
+    EVT_SLIDER(2001, NewMapFrame::OnZoomChange)
 wxEND_EVENT_TABLE()
 
-NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wxString name) : wxMDIParentFrame(parent, wxID_ANY, name, wxDefaultPosition, wxSize(800, 600) )
+NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wxString name) : wxFrame(parent, wxID_ANY, name, wxDefaultPosition, wxSize(800, 600) )
 {
-    wxSizer* vContainer = new wxBoxSizer(wxVERTICAL);
-    wxSizer* hContainer = new wxBoxSizer(wxHORIZONTAL);
-
-    wxPanel* mapEditor = new wxPanel(this);
-    wxPanel* imageLoader = new wxPanel(this);
-    
-    TileField* t = new TileField(this, cols, rows, tw, th);
-
-    mapEditor->SetBackgroundColour("White");
-    imageLoader->SetBackgroundColour("LightGreen");
-
-    vContainer->Add(t, 4, wxEXPAND, 0);
-    vContainer->Add(imageLoader, 1, wxEXPAND, 0);
-
-    wxPanel* layersPanel = new wxPanel(this);
-
-    layersPanel->SetBackgroundColour("Grey");
-
-    hContainer->Add(vContainer, 4, wxEXPAND, 0);
-    hContainer->Add(layersPanel, 1, wxEXPAND, 0);
-
-    SetSizer(hContainer);
+    m_canvas = new Canvas(this);
+    m_statusBar = this->CreateStatusBar(2, wxSTB_DEFAULT_STYLE, wxID_ANY);
+    m_zoomSlider = new wxSlider(m_statusBar, 2001, 50, 1, 100);
+    m_statusBar->SetStatusText(wxString("Zoom: ") << m_zoomSlider->GetValue() << wxString("%"), 1);
 
     Show(true);
 };
@@ -40,6 +23,13 @@ void NewMapFrame::OnClose(wxCloseEvent& evt)
     m->RemoveElementFromStack(this);
 
     this->Destroy();
+    evt.Skip();
+};
+
+void NewMapFrame::OnZoomChange(wxCommandEvent& evt) 
+{
+    m_statusBar->SetStatusText(wxString("Zoom: ") << m_zoomSlider->GetValue() << wxString("%"), 1);
+    m_canvas->setPixelSize(m_zoomSlider->GetValue() );
     evt.Skip();
 };
 
