@@ -16,12 +16,14 @@ class Canvas : public  wxHVScrolledWindow
         void OnDraw(wxDC& dc);
         void OnPaint(wxPaintEvent& evt);
 
-        int m_nPixelSize = 8;
+        int m_cols = 0;
+        int m_rows = 0;
+        int m_tileSize = 0;
 
         wxDECLARE_EVENT_TABLE();
     
     public:
-        Canvas(wxWindow* parent);
+        Canvas(wxWindow* parent, int cols, int rows, int ts);
         ~Canvas();
 
         void setPixelSize(int n);

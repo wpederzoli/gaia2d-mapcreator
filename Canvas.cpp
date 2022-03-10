@@ -4,9 +4,11 @@ wxBEGIN_EVENT_TABLE(Canvas, wxHVScrolledWindow)
     EVT_PAINT(Canvas::OnPaint)
 wxEND_EVENT_TABLE()
 
-Canvas::Canvas(wxWindow* parent) : wxHVScrolledWindow(parent, wxID_ANY) 
+Canvas::Canvas(wxWindow* parent, int cols, int rows, int ts) : wxHVScrolledWindow(parent, wxID_ANY) 
 {
-    SetRowColumnCount(50, 50);
+    m_tileSize = ts;
+
+    SetRowColumnCount(cols, rows);
     SetBackgroundStyle(wxBG_STYLE_PAINT);
 };
 
@@ -30,7 +32,7 @@ void Canvas::OnDraw(wxDC& dc)
         for(int x = s.GetCol(); x < e.GetCol(); x++)
         {
             dc.SetBrush(brush);
-            dc.DrawRectangle(x*m_nPixelSize, y*m_nPixelSize, m_nPixelSize, m_nPixelSize);
+            dc.DrawRectangle(x*m_tileSize, y*m_tileSize, m_tileSize, m_tileSize);
         }
 };
 
@@ -43,17 +45,17 @@ void Canvas::OnPaint(wxPaintEvent& evt)
 
 wxCoord Canvas::OnGetColumnWidth(size_t col) const 
 {
-    return wxCoord(m_nPixelSize);    
+    return wxCoord(m_tileSize);    
 };
 
 wxCoord Canvas::OnGetRowHeight(size_t row) const 
 {
-    return wxCoord(m_nPixelSize);
+    return wxCoord(m_tileSize);
 };
 
 void Canvas::setPixelSize(int n) 
 {
-    m_nPixelSize = n;
+    m_tileSize = n;
     wxVarHScrollHelper::RefreshAll();
     wxVarVScrollHelper::RefreshAll();
     Refresh();

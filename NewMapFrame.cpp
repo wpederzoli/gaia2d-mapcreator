@@ -7,11 +7,27 @@ wxEND_EVENT_TABLE()
 
 NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wxString name) : wxFrame(parent, wxID_ANY, name, wxDefaultPosition, wxSize(800, 600) )
 {
-    m_canvas = new Canvas(this);
+    wxSizer* vSizer = new wxBoxSizer(wxVERTICAL);
+    wxSizer* hSizer = new wxBoxSizer(wxHORIZONTAL);
+
+    wxPanel* p = new wxPanel(this);
+    p->SetBackgroundColour("LightGreen");
+
+    wxPanel* pb = new wxPanel(this);
+    pb->SetBackgroundColour("LightBlue");
+
+    hSizer->Add(vSizer, 3, wxEXPAND, 0);
+    hSizer->Add(pb, 1, wxEXPAND, 0);
+
+    m_canvas = new Canvas(this, cols, rows, tw);
     m_statusBar = this->CreateStatusBar(2, wxSTB_DEFAULT_STYLE, wxID_ANY);
     m_zoomSlider = new wxSlider(m_statusBar, 2001, 50, 1, 100);
     m_statusBar->SetStatusText(wxString("Zoom: ") << m_zoomSlider->GetValue() << wxString("%"), 1);
 
+    vSizer->Add(m_canvas, 3, wxEXPAND, 0);
+    vSizer->Add(p, 1, wxEXPAND, 0);
+
+    SetSizer(hSizer);
     Show(true);
 };
 
