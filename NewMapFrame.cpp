@@ -11,7 +11,7 @@ NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wx
     wxSizer* hSizer = new wxBoxSizer(wxHORIZONTAL);
 
     assetsPanel = new LoadAssetsPanel(this);
-    
+
     wxPanel* pb = new wxPanel(this);
     pb->SetBackgroundColour("LightBlue");
 
@@ -21,6 +21,7 @@ NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wx
     m_canvas = new Canvas(this, cols, rows, tw);
     m_statusBar = this->CreateStatusBar(2, wxSTB_DEFAULT_STYLE, wxID_ANY);
     m_zoomSlider = new wxSlider(m_statusBar, 2001, 50, 1, 100);
+    m_canvas->setPixelSize(m_zoomSlider->GetValue() );
     m_statusBar->SetStatusText(wxString("Zoom: ") << m_zoomSlider->GetValue() << wxString("%"), 1);
 
     vSizer->Add(m_canvas, 3, wxEXPAND, 0);

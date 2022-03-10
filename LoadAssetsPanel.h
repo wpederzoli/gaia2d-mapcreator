@@ -7,6 +7,9 @@ class LoadAssetsPanel : public wxPanel
 {
     private:
         wxButton* loadAssetsBtn = nullptr;
+        void OnLoadBtnClick(wxCommandEvent& evt);
+
+        wxDECLARE_EVENT_TABLE();
     
     public:
         LoadAssetsPanel(wxWindow* parent);
