@@ -8,7 +8,7 @@ class TileField : public wxScrolledWindow
     private:
     
     public:
-        TileField(wxWindow* parent);
+        TileField(wxWindow* parent, int col, int row, int tw, int th);
         ~TileField();
 };
 

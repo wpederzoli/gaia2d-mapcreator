@@ -1,15 +1,19 @@
 #include "TileField.h"
 
-TileField::TileField(wxWindow* parent) : wxScrolledWindow(parent)
+TileField::TileField(wxWindow* parent, int col, int row, int tw, int th) : wxScrolledWindow(parent)
 {
     wxSizer* container = new wxBoxSizer(wxVERTICAL);
-    wxSizer* sizer = new wxGridSizer(60, 60, 1, 1);
+    wxSizer* sizer = new wxGridSizer(row, col, 1, 1);
 
-    for(int i = 0; i < 3600; i++)
+    for(int i = 0; i < col*row; i++)
     {
-        int scale =  (GetParent()->GetSize().x/10)/32;
-        wxStaticText* p = new wxStaticText(this, wxID_ANY, std::to_string(i), wxDefaultPosition, wxSize(32*scale, 32*scale) );
-        // wxPanel* p = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(32*scale, 32*scale) );
+        int scale;
+        if(col > row)
+            scale = (GetParent()->GetSize().y/col)/tw;
+        else
+            scale = (GetParent()->GetSize().x/row)/th;
+
+        wxStaticText* p = new wxStaticText(this, wxID_ANY, std::to_string(i), wxDefaultPosition, wxSize(tw*scale, th*scale) );
         p->SetBackgroundColour("White");
         p->SetForegroundColour("LightGrey");
         sizer->Add(p, 1, wxSHAPED, 0);

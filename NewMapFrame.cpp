@@ -12,7 +12,7 @@ NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wx
     wxPanel* mapEditor = new wxPanel(this);
     wxPanel* imageLoader = new wxPanel(this);
     
-    TileField* t = new TileField(this);
+    TileField* t = new TileField(this, cols, rows, tw, th);
 
     mapEditor->SetBackgroundColour("White");
     imageLoader->SetBackgroundColour("LightGreen");
