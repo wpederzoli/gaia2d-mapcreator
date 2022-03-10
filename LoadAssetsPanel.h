@@ -1,6 +1,7 @@
 #ifndef LOADASSETSPANEL_H
 #define LOADASSETSPANEL_H
 
+#include <string>
 #include <wx/wx.h>
 
 class LoadAssetsPanel : public wxPanel
