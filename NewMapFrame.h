@@ -5,13 +5,14 @@
 #include <wx/glcanvas.h>
 
 #include "MainMenuFrame.h"
-#include "TileField.h"
 #include "Canvas.h"
+#include "LoadAssetsPanel.h"
 
 class NewMapFrame : wxFrame
 {
     private:
         Canvas* m_canvas = nullptr;
+        LoadAssetsPanel* assetsPanel = nullptr;
         wxStatusBar* m_statusBar = nullptr;
         wxSlider* m_zoomSlider = nullptr;
 

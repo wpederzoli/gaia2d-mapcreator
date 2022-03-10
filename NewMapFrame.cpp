@@ -10,9 +10,8 @@ NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wx
     wxSizer* vSizer = new wxBoxSizer(wxVERTICAL);
     wxSizer* hSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    wxPanel* p = new wxPanel(this);
-    p->SetBackgroundColour("LightGreen");
-
+    assetsPanel = new LoadAssetsPanel(this);
+    
     wxPanel* pb = new wxPanel(this);
     pb->SetBackgroundColour("LightBlue");
 
@@ -25,7 +24,7 @@ NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wx
     m_statusBar->SetStatusText(wxString("Zoom: ") << m_zoomSlider->GetValue() << wxString("%"), 1);
 
     vSizer->Add(m_canvas, 3, wxEXPAND, 0);
-    vSizer->Add(p, 1, wxEXPAND, 0);
+    vSizer->Add(assetsPanel, 1, wxEXPAND, 0);
 
     SetSizer(hSizer);
     Show(true);

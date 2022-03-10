@@ -56,6 +56,12 @@ wxCoord Canvas::OnGetRowHeight(size_t row) const
 void Canvas::setPixelSize(int n) 
 {
     m_tileSize = n;
+    if(n == 1)
+    {
+        wxVarHScrollHelper::ScrollToColumn(0);
+        wxVarVScrollHelper::ScrollToRow(0);
+    }
+    
     wxVarHScrollHelper::RefreshAll();
     wxVarVScrollHelper::RefreshAll();
     Refresh();
