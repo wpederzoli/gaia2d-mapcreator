@@ -2,7 +2,7 @@
 
 wxBEGIN_EVENT_TABLE(LoadAssetsPanel, wxPanel)
     EVT_BUTTON(12, LoadAssetsPanel::OnLoadBtnClick)
-    EVT_BUTTON(wxID_ANY, LoadAssetsPanel::OnImageClick)
+    // EVT_BUTTON(wxID_ANY, LoadAssetsPanel::OnImageClick)
 wxEND_EVENT_TABLE()
 
 LoadAssetsPanel::LoadAssetsPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
@@ -52,16 +52,16 @@ void LoadAssetsPanel::OnLoadBtnClick(wxCommandEvent& evt)
 
 void LoadAssetsPanel::OnImageClick(wxCommandEvent& evt) 
 {
-    std::stack<ThumbImage*> s = thumbImages;
-    while(!s.empty() )
-    {
-        if(s.top()->GetId() != evt.GetId() )
-            s.pop();
-        else {
-            s.top()->LoadImageFrame();
-            break;
-        }
-    }
+    // std::stack<ThumbImage*> s = thumbImages;
+    // while(!s.empty() )
+    // {
+    //     if(s.top()->GetId() != evt.GetId() )
+    //         s.pop();
+    //     else {
+    //         s.top()->LoadImageFrame();
+    //         break;
+    //     }
+    // }
 
-    evt.Skip();
+    // evt.Skip();
 };

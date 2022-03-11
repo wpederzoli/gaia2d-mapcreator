@@ -3,17 +3,21 @@
 
 #include <wx/wx.h>
 
+#include "ImageViewer.h"
+
 class ThumbImage : public wxBitmapButton
 {
     private:
         wxString m_filePath;
-        bool m_open = false;
-    
+        ImageViewer* viewer = nullptr;
+
+        wxDECLARE_EVENT_TABLE();
+
     public:
         ThumbImage(wxString filePath, wxWindow* parent, wxWindowID id, wxPoint position);
         ~ThumbImage();
 
-        void LoadImageFrame();
+        void LoadImageFrame(wxCommandEvent& evt);
 };
 
 #endif
