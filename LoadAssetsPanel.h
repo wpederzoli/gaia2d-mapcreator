@@ -6,13 +6,15 @@
 #include <wx/wx.h>
 #include <wx/vscroll.h>
 
+#include "ids.h"
+#include "ThumbImage.h"
+
 class LoadAssetsPanel : public wxPanel
 {
     private:
         wxButton* loadAssetsBtn = nullptr;
         wxHVScrolledWindow* m_assetsWindow = nullptr;
-        // std::stack<wxStaticBitmap*> bm;
-        std::stack<wxBitmapButton*> bm;
+        std::stack<ThumbImage*> thumbImages;
         void OnLoadBtnClick(wxCommandEvent& evt);
         void OnImageClick(wxCommandEvent& evt);
 
