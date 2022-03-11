@@ -49,19 +49,3 @@ void LoadAssetsPanel::OnLoadBtnClick(wxCommandEvent& evt)
 
     evt.Skip();
 };
-
-void LoadAssetsPanel::OnImageClick(wxCommandEvent& evt) 
-{
-    // std::stack<ThumbImage*> s = thumbImages;
-    // while(!s.empty() )
-    // {
-    //     if(s.top()->GetId() != evt.GetId() )
-    //         s.pop();
-    //     else {
-    //         s.top()->LoadImageFrame();
-    //         break;
-    //     }
-    // }
-
-    // evt.Skip();
-};

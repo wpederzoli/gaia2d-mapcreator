@@ -25,8 +25,6 @@ class SetupMapFrame : public wxFrame
         wxButton* cancelButton;
         wxTextCtrl* mapName;
 
-        int getValueFromStr(const char str[]);
-
     public:
 
         SetupMapFrame(wxFrame* parent);
