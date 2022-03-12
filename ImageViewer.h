@@ -13,9 +13,14 @@ class ImageViewer : public wxFrame
     private:
         wxBitmap* bitMap = nullptr;
         wxPoint mousePos;
+        wxPoint m_selectedTile;
+        
         int m_tileSize;
+        
         void OnPaint(wxPaintEvent& evt);
         void OnMouseMove(wxMouseEvent& evt);
+        void OnMouseClick(wxMouseEvent& evt);
+
         void DrawMouse(wxDC& dc, int x, int y);
 
         wxDECLARE_EVENT_TABLE();

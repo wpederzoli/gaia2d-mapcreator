@@ -3,6 +3,7 @@
 wxBEGIN_EVENT_TABLE(ImageViewer, wxFrame)
     EVT_PAINT(ImageViewer::OnPaint)
     EVT_MOTION(ImageViewer::OnMouseMove)
+    EVT_LEFT_DOWN(ImageViewer::OnMouseClick)
 wxEND_EVENT_TABLE()
 
 ImageViewer::ImageViewer(wxString filePath, wxWindow* parent ) : wxFrame(parent, wxID_ANY, "Image Viewer")
@@ -54,6 +55,18 @@ void ImageViewer::DrawMouse(wxDC& dc, int x, int y)
         p.SetColour(wxColor(0, 0, 255) );
     }
 
+    if(m_selectedTile.x > x && m_selectedTile.x < x + m_tileSize && m_selectedTile.y > y && m_selectedTile.y < y + m_tileSize)
+    {
+        p.SetStyle(wxPENSTYLE_SOLID);
+        p.SetColour(104, 180, 202);
+    }
+
     dc.SetPen(p);
     dc.DrawRectangle(wxPoint(x, y), wxSize(m_tileSize, m_tileSize) );
+};
+
+void ImageViewer::OnMouseClick(wxMouseEvent& evt) 
+{
+    m_selectedTile = evt.GetPosition();
+    evt.Skip();  
 };
