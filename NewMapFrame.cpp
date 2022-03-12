@@ -10,7 +10,7 @@ NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wx
     wxSizer* vSizer = new wxBoxSizer(wxVERTICAL);
     wxSizer* hSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    assetsPanel = new LoadAssetsPanel(this);
+    assetsPanel = new LoadAssetsPanel(this, tw);
 
     wxPanel* pb = new wxPanel(this);
     pb->SetBackgroundColour("LightBlue");

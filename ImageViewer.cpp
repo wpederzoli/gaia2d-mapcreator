@@ -5,8 +5,9 @@ wxBEGIN_EVENT_TABLE(ImageViewer, wxFrame)
     EVT_MOTION(ImageViewer::OnMouseMove)
 wxEND_EVENT_TABLE()
 
-ImageViewer::ImageViewer(wxString filePath, wxWindow* parent) : wxFrame(parent, wxID_ANY, "Image Viewer")
-{     
+ImageViewer::ImageViewer(wxString filePath, wxWindow* parent ) : wxFrame(parent, wxID_ANY, "Image Viewer")
+{   
+    m_tileSize = ((LoadAssetsPanel*)GetParent())->GetTileSize();
     bitMap = new wxBitmap(filePath, wxBITMAP_TYPE_PNG);
     SetSize(wxSize(bitMap->GetWidth(), bitMap->GetHeight() ) );
 };
@@ -25,12 +26,11 @@ void ImageViewer::OnPaint(wxPaintEvent& evt)
     b.SetColour(wxColor(0, 0, 0, 0) );
     dc.SetBrush(b);
 
-    for(int x = 0; x < bitMap->GetWidth(); x += 30)
-        for(int y = 0; y < bitMap->GetHeight(); y+=30)
+    for(int x = 0; x < bitMap->GetWidth(); x += m_tileSize)
+        for(int y = 0; y < bitMap->GetHeight(); y+= m_tileSize)
         {
             dc.SetBackground(b);
             DrawMouse(dc, x, y);
-            // dc.DrawRectangle(wxPoint(x, y), wxSize(30, 30) );
         }
     
     Refresh();
@@ -48,12 +48,12 @@ void ImageViewer::DrawMouse(wxDC& dc, int x, int y)
     p.SetStyle(wxPENSTYLE_LONG_DASH);
     p.SetColour(wxColor(255, 0, 0, 50) );
     
-    if(mousePos.x > x && mousePos.x < x + 30 && mousePos.y > y && mousePos.y < y + 30)
+    if(mousePos.x > x && mousePos.x < x + m_tileSize && mousePos.y > y && mousePos.y < y + m_tileSize)
     {
         p.SetStyle(wxPENSTYLE_SOLID);
         p.SetColour(wxColor(0, 0, 255) );
     }
 
     dc.SetPen(p);
-    dc.DrawRectangle(wxPoint(x, y), wxSize(30, 30));
+    dc.DrawRectangle(wxPoint(x, y), wxSize(m_tileSize, m_tileSize) );
 };

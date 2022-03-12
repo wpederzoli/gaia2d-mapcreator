@@ -8,6 +8,8 @@
 #include "Canvas.h"
 #include "LoadAssetsPanel.h"
 
+class LoadAssetsPanel;
+
 class NewMapFrame : wxFrame
 {
     private:
@@ -23,6 +25,7 @@ class NewMapFrame : wxFrame
         ~NewMapFrame();
 
         void OnClose(wxCloseEvent& evt);
+
         wxDECLARE_EVENT_TABLE();
 };
 

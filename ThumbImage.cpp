@@ -22,7 +22,7 @@ ThumbImage::~ThumbImage()
 
 void ThumbImage::LoadImageFrame(wxCommandEvent& evt) 
 {
-    viewer = new ImageViewer(m_filePath, GetParent());
+    viewer = new ImageViewer(m_filePath, GetParent() );
     viewer->Show(true);
     evt.Skip();
 };

@@ -5,10 +5,11 @@ wxBEGIN_EVENT_TABLE(LoadAssetsPanel, wxPanel)
     // EVT_BUTTON(wxID_ANY, LoadAssetsPanel::OnImageClick)
 wxEND_EVENT_TABLE()
 
-LoadAssetsPanel::LoadAssetsPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
+LoadAssetsPanel::LoadAssetsPanel(wxWindow* parent, int ts) : wxPanel(parent, wxID_ANY)
 {
     wxInitAllImageHandlers();
     loadAssetsBtn = new wxButton(this, 12, "Load", wxPoint(20, 20), wxDefaultSize);
+    m_tileSize = ts;
 
     SetBackgroundColour(wxColor(200, 133, 233));
 };

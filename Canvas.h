@@ -27,7 +27,6 @@ class Canvas : public  wxHVScrolledWindow
         ~Canvas();
 
         void setPixelSize(int n);
-
 };
 
 #endif

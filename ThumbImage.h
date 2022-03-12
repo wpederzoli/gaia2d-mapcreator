@@ -5,6 +5,8 @@
 
 #include "ImageViewer.h"
 
+class ImageViewer;
+
 class ThumbImage : public wxBitmapButton
 {
     private:
