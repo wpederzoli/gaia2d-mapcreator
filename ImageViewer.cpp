@@ -76,6 +76,11 @@ void ImageViewer::DrawMouse(wxDC& dc, int x, int y)
         dc.SetPen(p);
         dc.DrawRectangle(m_mouseDownPos, wxSize(m_mousePos.x - m_mouseDownPos.x, m_mousePos.y - m_mouseDownPos.y) );
     }
+
+    b.SetColour(wxColor(100, 200, 100, 1) );
+    dc.SetBrush(b);
+    dc.DrawRectangle(m_mouseDownPos, wxSize(m_mouseUpPos.x - m_mouseDownPos.x, m_mouseUpPos.y - m_mouseDownPos.y) );
+    
 };
 
 void ImageViewer::OnMouseClick(wxMouseEvent& evt) 
