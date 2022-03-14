@@ -76,6 +76,12 @@ void ImageViewer::DrawMouse(wxDC& dc, int x, int y)
         dc.SetPen(p);
         dc.DrawRectangle(m_mouseDownPos, wxSize(m_mousePos.x - m_mouseDownPos.x, m_mousePos.y - m_mouseDownPos.y) );
     }
+    else
+    {
+        wxRect rect(m_mouseDownPos, m_mouseUpPos);
+        wxBitmap bitx = dc.GetAsBitmap(&rect);
+        dc.DrawBitmap(bitx, m_mousePos);
+    }
 
     //update selection to match tile size
     if(m_mouseDownPos.x > x && m_mouseDownPos.x < x + m_tileSize && m_mouseDownPos.y > y && m_mouseDownPos.y < y + m_tileSize)
