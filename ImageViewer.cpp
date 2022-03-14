@@ -77,6 +77,19 @@ void ImageViewer::DrawMouse(wxDC& dc, int x, int y)
         dc.DrawRectangle(m_mouseDownPos, wxSize(m_mousePos.x - m_mouseDownPos.x, m_mousePos.y - m_mouseDownPos.y) );
     }
 
+    //update selection to match tile size
+    if(m_mouseDownPos.x > x && m_mouseDownPos.x < x + m_tileSize && m_mouseDownPos.y > y && m_mouseDownPos.y < y + m_tileSize)
+    {
+        m_mouseDownPos.x = x;
+        m_mouseDownPos.y = y;
+    }
+
+    if(m_mouseUpPos.x > x && m_mouseUpPos.x < x + m_tileSize && m_mouseUpPos.y > y && m_mouseUpPos.y < y + m_tileSize)
+    {
+        m_mouseUpPos.x = x;
+        m_mouseUpPos.y = y;
+    }
+
     b.SetColour(wxColor(100, 200, 100, 1) );
     dc.SetBrush(b);
     dc.DrawRectangle(m_mouseDownPos, wxSize(m_mouseUpPos.x - m_mouseDownPos.x, m_mouseUpPos.y - m_mouseDownPos.y) );
