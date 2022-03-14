@@ -23,9 +23,12 @@ class ImageViewer : public wxFrame
         int m_tileSize = 0;
         
         void OnPaint(wxPaintEvent& evt);
+
         void OnMouseMove(wxMouseEvent& evt);
         void OnMouseClick(wxMouseEvent& evt);
         void OnMouseRelease(wxMouseEvent& evt);
+
+        void OnActiveWindow(wxActivateEvent& evt);
 
         void DrawMouse(wxDC& dc, int x, int y);
         void DrawLines(wxDC& dc, int x, int y);

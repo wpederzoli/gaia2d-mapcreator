@@ -5,6 +5,7 @@ wxBEGIN_EVENT_TABLE(ImageViewer, wxFrame)
     EVT_MOTION(ImageViewer::OnMouseMove)
     EVT_LEFT_DOWN(ImageViewer::OnMouseClick)
     EVT_LEFT_UP(ImageViewer::OnMouseRelease)
+    EVT_ACTIVATE(ImageViewer::OnActiveWindow)
 wxEND_EVENT_TABLE()
 
 ImageViewer::ImageViewer(wxString filePath, wxWindow* parent ) : wxFrame(parent, wxID_ANY, "Image Viewer")
@@ -150,3 +151,12 @@ void ImageViewer::OnMouseRelease(wxMouseEvent& evt)
     
     evt.Skip();
 };
+
+void ImageViewer::OnActiveWindow(wxActivateEvent& evt)
+{
+    if(evt.GetActive() )
+        printf("active window\n");
+    else
+        printf("not active\n");
+    evt.Skip();
+}
