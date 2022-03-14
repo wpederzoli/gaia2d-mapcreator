@@ -86,8 +86,8 @@ void ImageViewer::DrawMouse(wxDC& dc, int x, int y)
 
     if(m_mouseUpPos.x > x && m_mouseUpPos.x < x + m_tileSize && m_mouseUpPos.y > y && m_mouseUpPos.y < y + m_tileSize)
     {
-        m_mouseUpPos.x = x;
-        m_mouseUpPos.y = y;
+        m_mouseUpPos.x = x + m_tileSize;
+        m_mouseUpPos.y = y + m_tileSize;
     }
 
     b.SetColour(wxColor(100, 200, 100, 1) );

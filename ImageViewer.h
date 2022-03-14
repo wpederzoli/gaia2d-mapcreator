@@ -16,9 +16,10 @@ class ImageViewer : public wxFrame
         wxPoint m_mouseDownPos;
         wxPoint m_mouseUpPos;
         wxPoint m_selectedTiles;
+
         bool m_mouseDown = false;
-        
-        int m_tileSize;
+
+        int m_tileSize = 0;
         
         void OnPaint(wxPaintEvent& evt);
         void OnMouseMove(wxMouseEvent& evt);
