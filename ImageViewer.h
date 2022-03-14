@@ -15,9 +15,10 @@ class ImageViewer : public wxFrame
         wxPoint m_mousePos;
         wxPoint m_mouseDownPos;
         wxPoint m_mouseUpPos;
-        wxPoint m_selectedTiles;
+        wxRect m_selectedTiles;
 
         bool m_mouseDown = false;
+        bool m_selected = false;
 
         int m_tileSize = 0;
         
@@ -27,8 +28,13 @@ class ImageViewer : public wxFrame
         void OnMouseRelease(wxMouseEvent& evt);
 
         void DrawMouse(wxDC& dc, int x, int y);
+        void DrawLines(wxDC& dc, int x, int y);
+        void DrawMousePosition(wxDC& dc, int x, int y);
+        void DrawSelection(wxDC& dc, int x, int y);
+        void DrawSelected(wxDC& dc, int x, int y);
 
         wxDECLARE_EVENT_TABLE();
+    
     public:
         ImageViewer(wxString filePath, wxWindow* parent );
         ~ImageViewer();
