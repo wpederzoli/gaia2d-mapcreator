@@ -9,6 +9,7 @@
 #include "ids.h"
 #include "ThumbImage.h"
 #include "NewMapFrame.h"
+#include "Canvas.h"
 
 class ThumbImage;
 
@@ -22,7 +23,6 @@ class LoadAssetsPanel : public wxPanel
         int m_tileSize = 0;
 
         void OnLoadBtnClick(wxCommandEvent& evt);
-        void OnImageClick(wxCommandEvent& evt);
 
         wxDECLARE_EVENT_TABLE();
     
@@ -31,6 +31,7 @@ class LoadAssetsPanel : public wxPanel
         ~LoadAssetsPanel();
 
         int GetTileSize(){ return m_tileSize; };
+        Canvas* GetCanvas();
 
 };
 

@@ -7,6 +7,7 @@
 #include <wx/dcbuffer.h>
 
 #include "LoadAssetsPanel.h"
+#include "Canvas.h"
 
 class ImageViewer : public wxFrame
 {
@@ -19,6 +20,7 @@ class ImageViewer : public wxFrame
 
         bool m_mouseDown = false;
         bool m_selected = false;
+        bool m_activate = false;
 
         int m_tileSize = 0;
         
@@ -35,6 +37,8 @@ class ImageViewer : public wxFrame
         void DrawMousePosition(wxDC& dc, int x, int y);
         void DrawSelection(wxDC& dc, int x, int y);
         void DrawSelected(wxDC& dc, int x, int y);
+
+        void SetCanvasBitmap(wxDC& dc);
 
         wxDECLARE_EVENT_TABLE();
     

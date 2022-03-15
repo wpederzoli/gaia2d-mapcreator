@@ -25,6 +25,7 @@ class NewMapFrame : wxFrame
         ~NewMapFrame();
 
         void OnClose(wxCloseEvent& evt);
+        Canvas* GetCanvas();
 
         wxDECLARE_EVENT_TABLE();
 };

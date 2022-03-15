@@ -26,6 +26,8 @@ void ImageViewer::OnPaint(wxPaintEvent& evt)
     dc.Clear();
     dc.DrawBitmap((*bitMap), wxDefaultPosition);
 
+    wxBitmap bm(dc.GetAsBitmap() );
+
 
     for(int x = 0; x < bitMap->GetWidth(); x += m_tileSize)
         for(int y = 0; y < bitMap->GetHeight(); y+= m_tileSize)
@@ -37,9 +39,12 @@ void ImageViewer::OnPaint(wxPaintEvent& evt)
                 DrawSelection(dc, x, y);
             if(m_selected)
                 DrawSelected(dc, x, y);
+            if(m_activate)
+                SetCanvasBitmap(dc);
         }
     
     Refresh();
+    evt.Skip();
 };
 
 
@@ -154,9 +159,14 @@ void ImageViewer::OnMouseRelease(wxMouseEvent& evt)
 
 void ImageViewer::OnActiveWindow(wxActivateEvent& evt)
 {
-    if(evt.GetActive() )
-        printf("active window\n");
-    else
-        printf("not active\n");
+    m_activate = !(evt.GetActive() );
     evt.Skip();
-}
+};
+
+void ImageViewer::SetCanvasBitmap(wxDC& dc) 
+{  
+    Canvas* canvas = ((LoadAssetsPanel*)GetParent())->GetCanvas();
+    wxBitmap bm = bitMap->GetSubBitmap(m_selectedTiles);
+    
+    canvas->SetActiveBitmap(bm);
+};

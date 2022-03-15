@@ -49,3 +49,8 @@ void NewMapFrame::OnZoomChange(wxCommandEvent& evt)
     evt.Skip();
 };
 
+Canvas* NewMapFrame::GetCanvas()
+{
+    return m_canvas;
+};
+

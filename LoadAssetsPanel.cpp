@@ -2,7 +2,6 @@
 
 wxBEGIN_EVENT_TABLE(LoadAssetsPanel, wxPanel)
     EVT_BUTTON(12, LoadAssetsPanel::OnLoadBtnClick)
-    // EVT_BUTTON(wxID_ANY, LoadAssetsPanel::OnImageClick)
 wxEND_EVENT_TABLE()
 
 LoadAssetsPanel::LoadAssetsPanel(wxWindow* parent, int ts) : wxPanel(parent, wxID_ANY)
@@ -49,4 +48,9 @@ void LoadAssetsPanel::OnLoadBtnClick(wxCommandEvent& evt)
     }
 
     evt.Skip();
+};
+
+Canvas* LoadAssetsPanel::GetCanvas()
+{
+    return ((NewMapFrame*)GetParent())->GetCanvas();
 };

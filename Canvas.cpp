@@ -33,6 +33,8 @@ void Canvas::OnDraw(wxDC& dc)
         {
             dc.SetBrush(brush);
             dc.DrawRectangle(x*m_tileSize, y*m_tileSize, m_tileSize, m_tileSize);
+            if(m_activeBitmapLoaded)
+                dc.DrawBitmap(m_activeBitmap, wxDefaultPosition);
         }
 };
 
@@ -65,4 +67,10 @@ void Canvas::setPixelSize(int n)
     wxVarHScrollHelper::RefreshAll();
     wxVarVScrollHelper::RefreshAll();
     Refresh();
+};
+
+void Canvas::SetActiveBitmap(wxBitmap& bm) 
+{
+    m_activeBitmapLoaded = true;
+    m_activeBitmap = bm;  
 };

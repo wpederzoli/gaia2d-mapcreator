@@ -19,6 +19,9 @@ class Canvas : public  wxHVScrolledWindow
         int m_cols = 0;
         int m_rows = 0;
         int m_tileSize = 0;
+        bool m_activeBitmapLoaded = false;
+
+        wxBitmap m_activeBitmap;
 
         wxDECLARE_EVENT_TABLE();
     
@@ -27,6 +30,7 @@ class Canvas : public  wxHVScrolledWindow
         ~Canvas();
 
         void setPixelSize(int n);
+        void SetActiveBitmap(wxBitmap& bm);
 };
 
 #endif
