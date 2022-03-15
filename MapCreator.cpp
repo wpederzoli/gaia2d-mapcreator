@@ -12,3 +12,4 @@ bool MapCreator::OnInit()
     frame->Show(true);
     return true;
 }
+ 
