@@ -2,11 +2,13 @@
 
 wxBEGIN_EVENT_TABLE(Canvas, wxHVScrolledWindow)
     EVT_PAINT(Canvas::OnPaint)
+    EVT_MOTION(Canvas::OnMouseMove)
 wxEND_EVENT_TABLE()
 
 Canvas::Canvas(wxWindow* parent, int cols, int rows, int ts) : wxHVScrolledWindow(parent, wxID_ANY) 
 {
     m_tileSize = ts;
+    m_initialTileSize = ts;
 
     SetRowColumnCount(cols, rows);
     SetBackgroundStyle(wxBG_STYLE_PAINT);
@@ -33,9 +35,16 @@ void Canvas::OnDraw(wxDC& dc)
         {
             dc.SetBrush(brush);
             dc.DrawRectangle(x*m_tileSize, y*m_tileSize, m_tileSize, m_tileSize);
-            if(m_activeBitmapLoaded)
-                dc.DrawBitmap(m_activeBitmap, wxDefaultPosition);
         }
+
+    if(m_activeBitmapLoaded)
+    {
+        wxImage i = m_activeBitmap.ConvertToImage();
+        i.Rescale( (i.GetWidth()/m_initialTileSize)*m_tileSize, (i.GetHeight()/m_initialTileSize)*m_tileSize);
+        wxBitmap bm(i);
+        dc.DrawBitmap(bm, m_mousePosition);
+        Refresh();
+    }
 };
 
 void Canvas::OnPaint(wxPaintEvent& evt) 
@@ -43,6 +52,11 @@ void Canvas::OnPaint(wxPaintEvent& evt)
     wxBufferedPaintDC dc(this);
     PrepareDC(dc);
     OnDraw(dc);
+};
+
+void Canvas::OnMouseMove(wxMouseEvent& evt) 
+{
+    m_mousePosition = evt.GetPosition();
 };
 
 wxCoord Canvas::OnGetColumnWidth(size_t col) const 
@@ -72,5 +86,5 @@ void Canvas::setPixelSize(int n)
 void Canvas::SetActiveBitmap(wxBitmap& bm) 
 {
     m_activeBitmapLoaded = true;
-    m_activeBitmap = bm;  
+    m_activeBitmap = bm; 
 };

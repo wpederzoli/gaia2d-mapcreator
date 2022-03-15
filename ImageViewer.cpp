@@ -154,7 +154,7 @@ void ImageViewer::OnMouseRelease(wxMouseEvent& evt)
 
 void ImageViewer::OnActiveWindow(wxActivateEvent& evt)
 {
-    if(!evt.GetActive() )
+    if(!evt.GetActive() && m_selected)
         SetCanvasBitmap();
 
     evt.Skip();

@@ -19,9 +19,13 @@ class Canvas : public  wxHVScrolledWindow
         int m_cols = 0;
         int m_rows = 0;
         int m_tileSize = 0;
+        int m_initialTileSize = 0;
         bool m_activeBitmapLoaded = false;
 
         wxBitmap m_activeBitmap;
+        wxPoint m_mousePosition;
+
+        void OnMouseMove(wxMouseEvent& evt);
 
         wxDECLARE_EVENT_TABLE();
     
