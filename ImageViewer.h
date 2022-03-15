@@ -38,7 +38,7 @@ class ImageViewer : public wxFrame
         void DrawSelection(wxDC& dc, int x, int y);
         void DrawSelected(wxDC& dc, int x, int y);
 
-        void SetCanvasBitmap(wxDC& dc);
+        void SetCanvasBitmap();
 
         wxDECLARE_EVENT_TABLE();
     
