@@ -44,7 +44,7 @@ void SetupMapFrame::OnAccept(wxCommandEvent& evt)
 {
     NewMapFrame* f = new NewMapFrame((wxFrame*)GetParent(), colsInput->GetValue(), rowsInput->GetValue(), tileWidthInput->GetValue(), 
         tileHeightInput->GetValue(), mapName->GetValue() ) ; 
-
+    
     MainMenuFrame* m = (MainMenuFrame*)GetParent();
     m->AddElementToStack(f);
 

@@ -6,7 +6,7 @@ wxBEGIN_EVENT_TABLE(MainMenuFrame, wxFrame)
     EVT_BUTTON(EXIT_BUTTON_ID, MainMenuFrame::OnExit)
 wxEND_EVENT_TABLE()
 
-MainMenuFrame::MainMenuFrame() : wxFrame(NULL, wxID_ANY, "Gaia Map Creator", wxPoint(200, 100), wxSize(800, 600))
+MainMenuFrame::MainMenuFrame() : wxFrame(NULL, wxID_ANY, "Gaia Map Creator", wxDefaultPosition, wxSize(300, 300))
 {
     openEditors = new std::stack<NewMapFrame*>();
     setup = NULL;
