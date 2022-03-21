@@ -53,21 +53,11 @@ void Canvas::OnMouseMove(wxMouseEvent& evt)
     evt.Skip();
 };
 
-int colIndex = 0;
-int rowIndex = 0;
-int cellSize = 0;
-int lastSize = 0;
-
 void Canvas::OnMouseDown(wxMouseEvent& evt)
 {
     wxImage i(m_activeBitmap.ConvertToImage() );
     i.Rescale( (i.GetWidth()/m_initialTileSize)*m_tileSize, (i.GetHeight()/m_initialTileSize)*m_tileSize );
     m_tmpBitmap = wxBitmap(i);
-
-    colIndex = m_mousePosition.x/m_tileSize;
-    rowIndex = m_mousePosition.y/m_tileSize;
-    cellSize = (GetVisibleEnd().GetRow()*m_tileSize)/GetRowCount();
-    lastSize = m_tileSize;
 
     evt.Skip();
 };
@@ -116,18 +106,21 @@ void Canvas::DrawBackground(wxDC& dc)
     if(m_mapBitmap.IsOk() && !m_tmpBitmap.IsOk() )
     {
         wxImage i = m_mapBitmap.ConvertToImage();
-        i.SetMaskColour(0, 0, 0);
-        dc.DrawBitmap(i, wxPoint(0, 0), true );
+        i.Rescale(GetColumnCount()*m_tileSize, GetRowCount()*m_tileSize);
+        dc.DrawBitmap(i, wxPoint(0, 0) );
+        Refresh();
     }    
     if(m_tmpBitmap.IsOk() )
     {   
         wxBitmap background(GetColumnCount()*m_tileSize, GetRowCount()*m_tileSize);
         wxMemoryDC memdc(background);
-        memdc.SetBrush(wxBrush(wxColor(255,255, 255, 255) ) );
 
         if(m_mapBitmap.IsOk() )
         {
-            memdc.DrawBitmap(m_mapBitmap, wxPoint(0, 0), true );
+            wxImage i = m_mapBitmap.ConvertToImage();
+            i.Rescale(GetColumnCount()*m_tileSize, GetRowCount()*m_tileSize);
+            dc.DrawBitmap(i, wxPoint(0, 0) );
+            memdc.DrawBitmap(i, wxPoint(0, 0), true );
         }
 
         memdc.DrawBitmap(m_tmpBitmap, m_mousePosition, true );
