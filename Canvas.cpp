@@ -123,7 +123,7 @@ void Canvas::DrawBackground(wxDC& dc)
             memdc.DrawBitmap(i, wxPoint(0, 0), true );
         }
 
-        memdc.DrawBitmap(m_tmpBitmap, m_mousePosition, true );
+        memdc.DrawBitmap(m_tmpBitmap, wxPoint(m_mousePosition.x-m_tmpBitmap.GetWidth()/2, m_mousePosition.y-m_tmpBitmap.GetHeight()/2), true );
 
         m_mapBitmap = wxBitmap(memdc.GetAsBitmap() );
         memdc.SelectObject(wxNullBitmap);
@@ -151,7 +151,7 @@ void Canvas::DrawActiveSprite(wxDC& dc)
         wxImage i = m_activeBitmap.ConvertToImage();
         i.Rescale( (i.GetWidth()/m_initialTileSize)*m_tileSize, (i.GetHeight()/m_initialTileSize)*m_tileSize );
         wxBitmap bm(i);
-        dc.DrawBitmap(bm, m_mousePosition);
+        dc.DrawBitmap(bm, wxPoint(m_mousePosition.x-bm.GetWidth()/2, m_mousePosition.y-bm.GetHeight()/2) );
         Refresh();
     }
 };
