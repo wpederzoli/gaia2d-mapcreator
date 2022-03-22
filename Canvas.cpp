@@ -114,6 +114,7 @@ void Canvas::DrawBackground(wxDC& dc)
     {   
         wxBitmap background(GetColumnCount()*m_tileSize, GetRowCount()*m_tileSize);
         wxMemoryDC memdc(background);
+        memdc.Clear();
 
         if(m_mapBitmap.IsOk() )
         {
