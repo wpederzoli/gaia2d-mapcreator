@@ -32,6 +32,7 @@ class Canvas : public  wxHVScrolledWindow
         wxBitmap m_mapBitmap;
         wxBitmap m_activeBitmap;
         wxBitmap m_tmpBitmap;
+        wxBitmap m_backgroundBm;
 
         wxPoint m_mousePosition;
 

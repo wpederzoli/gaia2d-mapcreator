@@ -101,37 +101,36 @@ void Canvas::SetActiveBitmap(wxBitmap& bm)
     m_activeBitmap = bm; 
 };
 
+
 void Canvas::DrawBackground(wxDC& dc)
 {
-    if(m_mapBitmap.IsOk() && !m_tmpBitmap.IsOk() )
+    if(m_backgroundBm.IsOk() && !m_tmpBitmap.IsOk() )
     {
-        wxImage i = m_mapBitmap.ConvertToImage();
+        wxImage i = m_backgroundBm.ConvertToImage();
         i.Rescale(GetColumnCount()*m_tileSize, GetRowCount()*m_tileSize);
-        dc.DrawBitmap(i, wxPoint(0, 0) );
-        Refresh();
-    }    
+        dc.DrawBitmap(i, 0, 0);
+    }
     if(m_tmpBitmap.IsOk() )
-    {   
-        wxBitmap background(GetColumnCount()*m_tileSize, GetRowCount()*m_tileSize);
-        wxMemoryDC memdc(background);
-        memdc.Clear();
+    {
+        int colIndex = m_mousePosition.x/m_tileSize;
+        int rowIndex = m_mousePosition.y/m_tileSize;
 
-        if(m_mapBitmap.IsOk() )
+        wxBitmap bg = wxBitmap(GetColumnCount()*100, GetRowCount()*100);
+        wxMemoryDC memdc(bg);
+        memdc.Clear();
+        wxImage i = m_tmpBitmap.ConvertToImage();
+        i.Rescale( (m_tmpBitmap.GetWidth()/m_tileSize)*100, (m_tmpBitmap.GetHeight()/m_tileSize)*100);
+        
+        if(m_backgroundBm.IsOk() )
         {
-            wxImage i = m_mapBitmap.ConvertToImage();
-            i.Rescale(GetColumnCount()*m_tileSize, GetRowCount()*m_tileSize);
-            dc.DrawBitmap(i, wxPoint(0, 0) );
-            memdc.DrawBitmap(i, wxPoint(0, 0), true );
+            memdc.DrawBitmap(m_backgroundBm, 0, 0);
         }
 
-        memdc.DrawBitmap(m_tmpBitmap, wxPoint(m_mousePosition.x-m_tmpBitmap.GetWidth()/2, m_mousePosition.y-m_tmpBitmap.GetHeight()/2), true );
-
-        m_mapBitmap = wxBitmap(memdc.GetAsBitmap() );
+        memdc.DrawBitmap(i, colIndex*100, rowIndex*100);
+        m_backgroundBm = wxBitmap(memdc.GetAsBitmap() );
         memdc.SelectObject(wxNullBitmap);
-
-        background.SaveFile("tmp.png", wxBITMAP_TYPE_PNG);
+        m_backgroundBm.SaveFile("tmp.png", wxBITMAP_TYPE_PNG);
         m_tmpBitmap = wxNullBitmap;
-        Refresh();
     }
 };
 
