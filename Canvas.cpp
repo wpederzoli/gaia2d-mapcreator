@@ -160,10 +160,14 @@ void Canvas::DrawActiveSprite(wxDC& dc)
 {
     if(m_activeBitmap.IsOk() )
     {
+        int colIndex = m_mousePosition.x/m_tileSize;
+        int rowIndex = m_mousePosition.y/m_tileSize;
+        
         wxImage i = m_activeBitmap.ConvertToImage();
         i.Rescale( (i.GetWidth()/m_initialTileSize)*m_tileSize, (i.GetHeight()/m_initialTileSize)*m_tileSize );
         wxBitmap bm(i);
-        dc.DrawBitmap(bm, wxPoint(m_mousePosition.x-bm.GetWidth()/2, m_mousePosition.y-bm.GetHeight()/2) );
+        
+        dc.DrawBitmap(bm, wxPoint(colIndex*m_tileSize, rowIndex*m_tileSize) );
         Refresh();
     }
 };
