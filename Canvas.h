@@ -14,6 +14,9 @@
 class Canvas : public  wxHVScrolledWindow
 {
     private:
+        static const int RESOLUTION_W = 1920;
+        static const int RESOLUTION_H = 1080;
+
         virtual wxCoord OnGetRowHeight(size_t row) const;
         virtual wxCoord OnGetColumnWidth(size_t col) const;
         
