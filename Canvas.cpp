@@ -106,31 +106,43 @@ void Canvas::DrawBackground(wxDC& dc)
 {
     if(m_backgroundBm.IsOk() && !m_tmpBitmap.IsOk() )
     {
-        wxImage i = m_backgroundBm.ConvertToImage();
-        i.Rescale(GetColumnCount()*m_tileSize, GetRowCount()*m_tileSize);
-        dc.DrawBitmap(i, 0, 0);
+        wxBitmap* bm = new wxBitmap(m_backgroundBm.GetSubBitmap(wxRect(
+                                                                    wxPoint(GetVisibleBegin().GetCol()*m_initialTileSize,
+                                                                            GetVisibleBegin().GetRow()*m_initialTileSize),
+                                                                    wxPoint(GetVisibleEnd().GetCol()*m_initialTileSize,
+                                                                            GetVisibleEnd().GetRow()*m_initialTileSize) ) ) );
+        wxImage* i = new wxImage(bm->ConvertToImage() );
+
+        int vx = (GetVisibleEnd().GetCol() - GetVisibleBegin().GetCol() )*m_tileSize;
+        int vy = (GetVisibleEnd().GetRow() - GetVisibleBegin().GetRow() )*m_tileSize;
+
+        i->Rescale(vx, vy);
+        dc.DrawBitmap( (*i), GetVisibleBegin().GetCol()*m_tileSize, GetVisibleBegin().GetRow()*m_tileSize);
+
+        Refresh();
+        delete bm;
+        delete i;
     }
     if(m_tmpBitmap.IsOk() )
     {
         int colIndex = m_mousePosition.x/m_tileSize;
         int rowIndex = m_mousePosition.y/m_tileSize;
 
-        wxBitmap bg = wxBitmap( (RESOLUTION_W/m_initialTileSize)*GetColumnCount(), (RESOLUTION_W/m_initialTileSize)*GetRowCount());
+        wxBitmap bg = wxBitmap( (GetColumnCount()+1) *m_initialTileSize, (GetRowCount()+1) *m_initialTileSize);
         wxMemoryDC memdc(bg);
         memdc.Clear();
-        wxImage i = m_activeBitmap.ConvertToImage();
-        i.Rescale( (m_tmpBitmap.GetWidth()/m_tileSize)*(RESOLUTION_W/m_initialTileSize), (m_tmpBitmap.GetHeight()/m_tileSize)*(RESOLUTION_W/m_initialTileSize) );
-        
+
         if(m_backgroundBm.IsOk() )
         {
             memdc.DrawBitmap(m_backgroundBm, 0, 0);
         }
 
-        memdc.DrawBitmap(i, colIndex*(RESOLUTION_W/m_initialTileSize), rowIndex*(RESOLUTION_W/m_initialTileSize) );
+        memdc.DrawBitmap(m_activeBitmap, colIndex*m_initialTileSize, rowIndex*m_initialTileSize);
         m_backgroundBm = wxBitmap(memdc.GetAsBitmap() );
         memdc.SelectObject(wxNullBitmap);
-        m_backgroundBm.SaveFile("tmp.png", wxBITMAP_TYPE_PNG);
         m_tmpBitmap = wxNullBitmap;
+
+        Refresh();
     }
 };
 
