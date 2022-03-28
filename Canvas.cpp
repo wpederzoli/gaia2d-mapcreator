@@ -69,6 +69,15 @@ void Canvas::OnMouseUp(wxMouseEvent& evt)
 
 void Canvas::OnMouseRightDown(wxMouseEvent& evt)
 {
+    int colIndex = m_mousePosition.x/m_tileSize;
+    int rowIndex = m_mousePosition.y/m_tileSize;
+    
+    wxMemoryDC mdc(m_backgroundBm);
+    mdc.SetPen(wxPen(wxColor(0, 0, 0, 0) ) );
+    mdc.DrawRectangle(wxRect(colIndex*m_initialTileSize, rowIndex*m_initialTileSize, m_initialTileSize+1, m_initialTileSize+1) );
+    m_backgroundBm = mdc.GetAsBitmap();
+    mdc.SelectObject(wxNullBitmap);
+
     evt.Skip();  
 };
 
