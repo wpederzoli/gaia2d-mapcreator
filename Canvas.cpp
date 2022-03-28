@@ -106,11 +106,12 @@ void Canvas::DrawBackground(wxDC& dc)
 {
     if(m_backgroundBm.IsOk() && !m_tmpBitmap.IsOk() )
     {
-        wxBitmap* bm = new wxBitmap(m_backgroundBm.GetSubBitmap(wxRect(
-                                                                    wxPoint(GetVisibleBegin().GetCol()*m_initialTileSize,
-                                                                            GetVisibleBegin().GetRow()*m_initialTileSize),
-                                                                    wxPoint(GetVisibleEnd().GetCol()*m_initialTileSize,
-                                                                            GetVisibleEnd().GetRow()*m_initialTileSize) ) ) );
+        int x = GetVisibleBegin().GetCol()*m_initialTileSize;
+        int y = GetVisibleBegin().GetRow()*m_initialTileSize;
+        int w = GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize;
+        int h = GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleBegin().GetRow()*m_initialTileSize;
+        wxRect rect(x, y, w, h);
+        wxBitmap* bm = new wxBitmap(m_backgroundBm.GetSubBitmap(rect) );
         wxImage* i = new wxImage(bm->ConvertToImage() );
 
         int vx = (GetVisibleEnd().GetCol() - GetVisibleBegin().GetCol() )*m_tileSize;
@@ -128,7 +129,7 @@ void Canvas::DrawBackground(wxDC& dc)
         int colIndex = m_mousePosition.x/m_tileSize;
         int rowIndex = m_mousePosition.y/m_tileSize;
 
-        wxBitmap bg = wxBitmap( (GetColumnCount()+1) *m_initialTileSize, (GetRowCount()+1) *m_initialTileSize);
+        wxBitmap bg = wxBitmap( GetColumnCount()*m_initialTileSize, GetRowCount()*m_initialTileSize);
         wxMemoryDC memdc(bg);
         memdc.Clear();
 
@@ -137,7 +138,9 @@ void Canvas::DrawBackground(wxDC& dc)
             memdc.DrawBitmap(m_backgroundBm, 0, 0);
         }
 
-        memdc.DrawBitmap(m_activeBitmap, colIndex*m_initialTileSize, rowIndex*m_initialTileSize);
+        wxImage i = m_activeBitmap.ConvertToImage();
+        i.Rescale( (i.GetWidth()/m_initialTileSize)*m_initialTileSize, (i.GetHeight()/m_initialTileSize)*m_initialTileSize);
+        memdc.DrawBitmap(i, colIndex*m_initialTileSize, rowIndex*m_initialTileSize);
         m_backgroundBm = wxBitmap(memdc.GetAsBitmap() );
         memdc.SelectObject(wxNullBitmap);
         m_tmpBitmap = wxNullBitmap;
