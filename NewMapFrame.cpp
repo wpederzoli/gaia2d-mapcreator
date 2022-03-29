@@ -12,11 +12,12 @@ NewMapFrame::NewMapFrame(wxFrame* parent, int cols, int rows, int tw, int th, wx
 
     assetsPanel = new LoadAssetsPanel(this, tw);
 
-    wxPanel* pb = new wxPanel(this);
-    pb->SetBackgroundColour("LightBlue");
+    layersPanel = new LayersPanel(this);
+    // wxPanel* pb = new wxPanel(this);
+    // pb->SetBackgroundColour("LightBlue");
 
     hSizer->Add(vSizer, 3, wxEXPAND, 0);
-    hSizer->Add(pb, 1, wxEXPAND, 0);
+    hSizer->Add(layersPanel, 1, wxEXPAND, 0);
 
     m_canvas = new Canvas(this, cols, rows, tw);
     m_statusBar = this->CreateStatusBar(2, wxSTB_DEFAULT_STYLE, wxID_ANY);

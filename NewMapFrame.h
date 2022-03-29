@@ -7,6 +7,7 @@
 #include "MainMenuFrame.h"
 #include "Canvas.h"
 #include "LoadAssetsPanel.h"
+#include "LayersPanel.h"
 
 class LoadAssetsPanel;
 
@@ -15,6 +16,7 @@ class NewMapFrame : wxFrame
     private:
         Canvas* m_canvas = nullptr;
         LoadAssetsPanel* assetsPanel = nullptr;
+        LayersPanel* layersPanel = nullptr;
         wxStatusBar* m_statusBar = nullptr;
         wxSlider* m_zoomSlider = nullptr;
 
