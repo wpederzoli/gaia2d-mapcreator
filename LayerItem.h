@@ -8,12 +8,13 @@ class LayerItem : public wxPanel
     private:
         wxString m_label = wxEmptyString;
         int m_id = 0;
-        wxRadioButton* m_btn = nullptr;
+        wxCheckBox* m_btn = nullptr;
 
     public:
         LayerItem(wxWindow* parent, int id);
         ~LayerItem();
 
+        int GetId();
         void SetId(int id);
         void Selected(bool active);
 };
