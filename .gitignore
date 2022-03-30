@@ -1,2 +1,6 @@
 .vscode
 mapcreator
+analysis.txt
+gmon.out
+mcprofile
+valgrind.txt

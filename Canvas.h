@@ -1,7 +1,7 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#include <list>
+#include <map>
 
 #include <wx/wx.h>
 #include <wx/vscroll.h>
@@ -9,16 +9,18 @@
 #include <wx/dcmemory.h>
 #include <wx/dcbuffer.h>
 
-#include "MapImage.h"
+#include "Layer.h"
 
 class Canvas : public  wxHVScrolledWindow
 {
     private:
-        static const int RESOLUTION_W = 1920;
-        static const int RESOLUTION_H = 1080;
-
+        const wxColor MASK_RGB = wxColor(255, 0, 247);
+        
         virtual wxCoord OnGetRowHeight(size_t row) const;
         virtual wxCoord OnGetColumnWidth(size_t col) const;
+
+        std::map<int, Layer*>layers;
+        Layer* m_activeLayer = nullptr;
         
         int m_cols = 0;
         int m_rows = 0;
@@ -39,6 +41,7 @@ class Canvas : public  wxHVScrolledWindow
 
         wxPoint m_mousePosition;
 
+        void DrawLayers(wxDC& dc);
         void DrawBackground(wxDC& dc);
         void DrawGrid(wxDC& dc);
         void DrawActiveSprite(wxDC& dc);
@@ -51,6 +54,10 @@ class Canvas : public  wxHVScrolledWindow
 
         void setPixelSize(int n);
         void SetActiveBitmap(wxBitmap& bm);
+
+        void AddLayer(int id, Layer* l);
+        void RemoveLayer(int id);
+        void SetActiveLayer(int id);
 };
 
 #endif
