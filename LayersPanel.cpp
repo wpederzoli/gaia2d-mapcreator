@@ -6,8 +6,10 @@ wxBEGIN_EVENT_TABLE(LayersPanel, wxPanel)
     EVT_CHECKBOX(wxID_ANY, LayersPanel::OnSelectLayer)
 wxEND_EVENT_TABLE()
 
-LayersPanel::LayersPanel(wxWindow* parent) : wxPanel(parent)
+LayersPanel::LayersPanel(wxWindow* parent, Canvas* c) : wxPanel(parent)
 {
+    m_canvas = c;
+
     SetBackgroundColour("Lightgrey");
     m_mainContainer = new wxBoxSizer(wxVERTICAL);
 
@@ -25,7 +27,10 @@ LayersPanel::LayersPanel(wxWindow* parent) : wxPanel(parent)
     m_selectedLayer = layer1;
 
     m_layersContainer->Add(layer1);
+
     layers.insert({1, layer1});
+    m_canvas->AddLayer(m_selectedLayer->GetId(), new Layer() );
+    m_canvas->SetActiveLayer(m_selectedLayer->GetId() );
 
     m_mainContainer->Add(m_layersContainer, 3, wxALIGN_LEFT, 0);
     m_mainContainer->Add(m_buttonsContainer, 1, wxALIGN_CENTER, 0);
@@ -87,5 +92,6 @@ void LayersPanel::OnSelectLayer(wxCommandEvent& evt)
         m_selectedLayer->Selected(false);
     
     m_selectedLayer = (LayerItem*)((wxCheckBox*)evt.GetEventObject())->GetParent();
+
     evt.Skip();    
 }

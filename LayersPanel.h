@@ -5,7 +5,9 @@
 #include <map>
 
 #include "ids.h"
+#include "Layer.h"
 #include "LayerItem.h"
+#include "Canvas.h"
 
 class LayersPanel : public  wxPanel
 {
@@ -20,6 +22,8 @@ class LayersPanel : public  wxPanel
         wxButton* m_addLayerBtn = nullptr;
         wxButton* m_removeLayerBtn = nullptr;
 
+        Canvas* m_canvas = nullptr;
+
         void OnAddLayer(wxCommandEvent& evt);
         void OnRemoveLayer(wxCommandEvent& evt);
         void OnSelectLayer(wxCommandEvent& evt);
@@ -27,7 +31,7 @@ class LayersPanel : public  wxPanel
         wxDECLARE_EVENT_TABLE();
 
     public:
-        LayersPanel(wxWindow* parent);
+        LayersPanel(wxWindow* parent, Canvas* c);
         ~LayersPanel();
 };
 

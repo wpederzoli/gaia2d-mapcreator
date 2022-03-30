@@ -6,13 +6,16 @@
 class Layer
 {
     private:
-        wxBitmap* m_bitMap;
+        wxBitmap* m_bitMap = nullptr;
         int m_id;
         bool m_active;
 
     public:
-        Layer(wxBitmap* bm, int id);
+        Layer();
         ~Layer();
+
+        wxBitmap* GetBitmap();
+        wxBitmap* GetSubBitmap(int x, int y, int w, int h);
 };
 
 #endif

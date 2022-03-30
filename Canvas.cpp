@@ -39,7 +39,8 @@ void Canvas::OnDraw(wxDC& dc)
     pen.SetColour(wxColor(100, 100, 100) );
     dc.SetPen(pen);
 
-    DrawBackground(dc);
+    DrawLayers(dc);
+    // DrawBackground(dc);
     DrawGrid(dc);
     DrawActiveSprite(dc);
 };
@@ -110,29 +111,52 @@ void Canvas::SetActiveBitmap(wxBitmap& bm)
     m_activeBitmap = bm; 
 };
 
+void Canvas::DrawLayers(wxDC& dc) 
+{
+    for(std::pair<int, Layer*> l : layers)
+    {
+        if((l.second->GetBitmap() )->IsOk() )
+        {
+            wxBitmap* bm = l.second->GetSubBitmap(GetVisibleBegin().GetCol()*m_initialTileSize,
+                                GetVisibleBegin().GetRow()*m_initialTileSize,
+                                GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize,
+                                GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleEnd().GetRow()*m_initialTileSize );
+            
+            wxImage* i = new wxImage(bm->ConvertToImage() );
+            i->Rescale( (GetVisibleEnd().GetCol() - GetVisibleBegin().GetCol() )*m_tileSize,
+                        (GetVisibleEnd().GetRow() - GetVisibleBegin().GetRow() )*m_tileSize );
+            
+            dc.DrawBitmap( (*i), GetVisibleBegin().GetCol()*m_tileSize, GetVisibleBegin().GetRow()*m_tileSize);
+
+            Refresh();
+            delete bm;
+            delete i;
+        }
+    }  
+};
 
 void Canvas::DrawBackground(wxDC& dc)
 {
-    if(m_backgroundBm.IsOk() && !m_tmpBitmap.IsOk() )
-    {
-        int x = GetVisibleBegin().GetCol()*m_initialTileSize;
-        int y = GetVisibleBegin().GetRow()*m_initialTileSize;
-        int w = GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize;
-        int h = GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleBegin().GetRow()*m_initialTileSize;
-        wxRect rect(x, y, w, h);
-        wxBitmap* bm = new wxBitmap(m_backgroundBm.GetSubBitmap(rect) );
-        wxImage* i = new wxImage(bm->ConvertToImage() );
+    // if(m_backgroundBm.IsOk() && !m_tmpBitmap.IsOk() )
+    // {
+    //     int x = GetVisibleBegin().GetCol()*m_initialTileSize;
+    //     int y = GetVisibleBegin().GetRow()*m_initialTileSize;
+    //     int w = GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize;
+    //     int h = GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleBegin().GetRow()*m_initialTileSize;
+    //     wxRect rect(x, y, w, h);
+    //     wxBitmap* bm = new wxBitmap(m_backgroundBm.GetSubBitmap(rect) );
+    //     wxImage* i = new wxImage(bm->ConvertToImage() );
 
-        int vx = (GetVisibleEnd().GetCol() - GetVisibleBegin().GetCol() )*m_tileSize;
-        int vy = (GetVisibleEnd().GetRow() - GetVisibleBegin().GetRow() )*m_tileSize;
+    //     int vx = (GetVisibleEnd().GetCol() - GetVisibleBegin().GetCol() )*m_tileSize;
+    //     int vy = (GetVisibleEnd().GetRow() - GetVisibleBegin().GetRow() )*m_tileSize;
 
-        i->Rescale(vx, vy);
-        dc.DrawBitmap( (*i), GetVisibleBegin().GetCol()*m_tileSize, GetVisibleBegin().GetRow()*m_tileSize);
+    //     i->Rescale(vx, vy);
+    //     dc.DrawBitmap( (*i), GetVisibleBegin().GetCol()*m_tileSize, GetVisibleBegin().GetRow()*m_tileSize);
 
-        Refresh();
-        delete bm;
-        delete i;
-    }
+    //     Refresh();
+    //     delete bm;
+    //     delete i;
+    // }
     if(m_tmpBitmap.IsOk() )
     {
         int colIndex = m_mousePosition.x/m_tileSize;
@@ -182,4 +206,22 @@ void Canvas::DrawActiveSprite(wxDC& dc)
         dc.DrawBitmap(bm, wxPoint(colIndex*m_tileSize, rowIndex*m_tileSize) );
         Refresh();
     }
+};
+
+void Canvas::AddLayer(int id, Layer* l) 
+{
+    layers.insert({id, l});  
+};
+
+void Canvas::RemoveLayer(int id)
+{
+    layers.erase(id);
+};
+
+void Canvas::SetActiveLayer(int id) 
+{
+    std::map<int, Layer*>::iterator it;
+    it = layers.find(id);
+    if(it != layers.end() )
+        m_activeLayer = it->second;  
 };
