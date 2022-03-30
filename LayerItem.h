@@ -7,7 +7,7 @@ class LayerItem : public wxPanel
 {
     private:
         wxString m_label = wxEmptyString;
-        int m_id = 0;
+        int m_id;
         wxCheckBox* m_btn = nullptr;
 
     public:

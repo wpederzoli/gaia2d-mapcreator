@@ -20,12 +20,12 @@ LayersPanel::LayersPanel(wxWindow* parent) : wxPanel(parent)
     m_buttonsContainer->Add(newLayerBtn, 1, wxALIGN_CENTER, 0);
     m_buttonsContainer->Add(deleteLatyer, 1, wxALIGN_CENTER, 0);
 
-    LayerItem* layer0 = new LayerItem(this, 1);
-    layer0->Selected(true);
-    m_selectedLayer = layer0;
+    LayerItem* layer1 = new LayerItem(this, 1);
+    layer1->Selected(true);
+    m_selectedLayer = layer1;
 
-    m_layersContainer->Add(layer0);
-    layers.insert(std::pair<int, LayerItem*>(1, layer0) );
+    m_layersContainer->Add(layer1);
+    layers.insert({1, layer1});
 
     m_mainContainer->Add(m_layersContainer, 3, wxALIGN_LEFT, 0);
     m_mainContainer->Add(m_buttonsContainer, 1, wxALIGN_CENTER, 0);
@@ -44,19 +44,17 @@ LayersPanel::~LayersPanel()
 
 void LayersPanel::OnAddLayer(wxCommandEvent& evt) 
 {   
-    LayerItem* newLayer = new LayerItem(this, 0);
+    int id = 0;
+    if(!layers.empty() )
+        id = layers.rbegin()->second->GetId() + 1;
+
+    LayerItem* newLayer = new LayerItem(this, id);
+    
     m_layersContainer->AddSpacer(1);
     m_layersContainer->Add(newLayer);
     m_layersContainer->Layout();
 
-    int id = 0;
-    if(!layers.empty() )
-        id = layers.end()->first + 1;
-    
-    newLayer->SetId(id);
-    newLayer->Selected(false);
-
-    layers.insert(std::pair<int, LayerItem*>(id, newLayer) );
+    layers.insert({id, newLayer});
 
     evt.Skip();
 };
@@ -68,15 +66,12 @@ void LayersPanel::OnRemoveLayer(wxCommandEvent& evt)
         m_selectedLayer->Hide();
         m_layersContainer->Layout();
 
-        int id = m_selectedLayer->GetId();
-        if(id <= 0)
-            id = 1;
-
         layers.erase(m_selectedLayer->GetId() );
         delete m_selectedLayer;
 
         m_selectedLayer = nullptr;
     }
+
     evt.Skip();
 };
 
