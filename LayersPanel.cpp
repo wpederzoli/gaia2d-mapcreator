@@ -73,6 +73,8 @@ void LayersPanel::OnRemoveLayer(wxCommandEvent& evt)
         m_layersContainer->Layout();
 
         layers.erase(m_selectedLayer->GetId() );
+        m_canvas->RemoveLayer(m_selectedLayer->GetId() );
+        
         delete m_selectedLayer;
 
         m_selectedLayer = nullptr;

@@ -3,7 +3,7 @@
 LayerItem::LayerItem(wxWindow* parent, int id) : wxPanel(parent) 
 {
     m_id = id;
-    m_label = "Label : " + std::to_string(m_id);
+    m_label = "Layer : " + std::to_string(m_id);
     m_btn = new wxCheckBox(this, wxID_ANY, m_label);
 };
 
@@ -17,7 +17,7 @@ int LayerItem::GetId()
 void LayerItem::SetId(int id) 
 {
     m_id = id;
-    m_label = "Label: " + std::to_string(m_id);
+    m_label = "Layer: " + std::to_string(m_id);
     m_btn->SetLabel(m_label);
 };
 
