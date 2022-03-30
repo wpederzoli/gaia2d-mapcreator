@@ -73,10 +73,21 @@ void Canvas::OnMouseRightDown(wxMouseEvent& evt)
     int colIndex = m_mousePosition.x/m_tileSize;
     int rowIndex = m_mousePosition.y/m_tileSize;
     
-    wxMemoryDC mdc(m_backgroundBm);
-    mdc.SetPen(wxPen(wxColor(0, 0, 0, 0) ) );
+    wxMemoryDC mdc( (*m_activeLayer->GetBitmap()) );
+    mdc.SetBrush(MASK_RGB);
+    mdc.SetPen(MASK_RGB);
+
     mdc.DrawRectangle(wxRect(colIndex*m_initialTileSize, rowIndex*m_initialTileSize, m_initialTileSize+1, m_initialTileSize+1) );
-    m_backgroundBm = mdc.GetAsBitmap();
+    
+    wxBitmap bm = mdc.GetAsBitmap();
+    wxImage i = bm.ConvertToImage();
+    i.SetMaskColour(MASK_RGB.Red(), MASK_RGB.Green(), MASK_RGB.Blue() );
+
+    mdc.DrawBitmap(bm, 0, 0, true);
+
+    bm = mdc.GetAsBitmap();
+
+    m_activeLayer->SetBitmap(bm);
     mdc.SelectObject(wxNullBitmap);
 
     evt.Skip();  
@@ -113,22 +124,28 @@ void Canvas::SetActiveBitmap(wxBitmap& bm)
 
 void Canvas::DrawLayers(wxDC& dc) 
 {
-    for(std::pair<int, Layer*> l : layers)
+    std::map<int, Layer*>::iterator it;
+    for(it = layers.begin(); it != layers.end(); it++)
     {
-        if((l.second->GetBitmap() )->IsOk() )
+        if(it->second->GetBitmap()->IsOk() )
         {
-            wxBitmap* bm = new wxBitmap( (l.second->GetBitmap() )->GetSubBitmap( wxRect(GetVisibleBegin().GetCol()*m_initialTileSize,
-                                        GetVisibleBegin().GetRow()*m_initialTileSize,
-                                        GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize,
-                                        GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleBegin().GetRow()*m_initialTileSize ) ) 
+            wxBitmap* bm = new wxBitmap(it->second->GetBitmap()->GetSubBitmap(
+                                wxRect(GetVisibleBegin().GetCol()*m_initialTileSize,
+                                            GetVisibleBegin().GetRow()*m_initialTileSize,
+                                            GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize,
+                                            GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleBegin().GetRow()*m_initialTileSize 
+                                    ) 
+                                )   
                             );
             
             wxImage* i = new wxImage(bm->ConvertToImage() );
             i->Rescale( (GetVisibleEnd().GetCol() - GetVisibleBegin().GetCol() )*m_tileSize,
                         (GetVisibleEnd().GetRow() - GetVisibleBegin().GetRow() )*m_tileSize );
-            
-            dc.DrawBitmap( (*i), GetVisibleBegin().GetCol()*m_tileSize, GetVisibleBegin().GetRow()*m_tileSize);
+            i->SetMaskColour(MASK_RGB.Red(), MASK_RGB.Green(), MASK_RGB.Blue() );
+            i->SetMask(true);
 
+            dc.DrawBitmap( (*i), GetVisibleBegin().GetCol()*m_tileSize, GetVisibleBegin().GetRow()*m_tileSize, true);
+            
             Refresh();
             delete bm;
             delete i;
@@ -138,26 +155,6 @@ void Canvas::DrawLayers(wxDC& dc)
 
 void Canvas::DrawBackground(wxDC& dc)
 {
-    // if(m_backgroundBm.IsOk() && !m_tmpBitmap.IsOk() )
-    // {
-    //     int x = GetVisibleBegin().GetCol()*m_initialTileSize;
-    //     int y = GetVisibleBegin().GetRow()*m_initialTileSize;
-    //     int w = GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize;
-    //     int h = GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleBegin().GetRow()*m_initialTileSize;
-    //     wxRect rect(x, y, w, h);
-    //     wxBitmap* bm = new wxBitmap(m_backgroundBm.GetSubBitmap(rect) );
-    //     wxImage* i = new wxImage(bm->ConvertToImage() );
-
-    //     int vx = (GetVisibleEnd().GetCol() - GetVisibleBegin().GetCol() )*m_tileSize;
-    //     int vy = (GetVisibleEnd().GetRow() - GetVisibleBegin().GetRow() )*m_tileSize;
-
-    //     i->Rescale(vx, vy);
-    //     dc.DrawBitmap( (*i), GetVisibleBegin().GetCol()*m_tileSize, GetVisibleBegin().GetRow()*m_tileSize);
-
-    //     Refresh();
-    //     delete bm;
-    //     delete i;
-    // }
     if(m_tmpBitmap.IsOk() )
     {
         int colIndex = m_mousePosition.x/m_tileSize;
@@ -165,6 +162,9 @@ void Canvas::DrawBackground(wxDC& dc)
 
         wxBitmap bg = wxBitmap( GetColumnCount()*m_initialTileSize, GetRowCount()*m_initialTileSize);
         wxMemoryDC memdc(bg);
+        
+        //adding the mask color so we can render each layer's background transparent
+        memdc.SetBackground(wxBrush(MASK_RGB) );
         memdc.Clear();
 
         if(m_activeLayer->GetBitmap()->IsOk() )

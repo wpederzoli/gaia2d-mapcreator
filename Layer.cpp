@@ -3,7 +3,7 @@
 Layer::Layer(int id)
 {
     m_bitMap = new wxBitmap();
-
+    m_id = id;
 };
 
 Layer::~Layer() {};

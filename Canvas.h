@@ -14,6 +14,8 @@
 class Canvas : public  wxHVScrolledWindow
 {
     private:
+        const wxColor MASK_RGB = wxColor(255, 0, 247);
+        
         virtual wxCoord OnGetRowHeight(size_t row) const;
         virtual wxCoord OnGetColumnWidth(size_t col) const;
 

@@ -60,6 +60,7 @@ void LayersPanel::OnAddLayer(wxCommandEvent& evt)
     m_layersContainer->Layout();
 
     layers.insert({id, newLayer});
+    m_canvas->AddLayer(id, new Layer(id) );
 
     evt.Skip();
 };
@@ -92,6 +93,7 @@ void LayersPanel::OnSelectLayer(wxCommandEvent& evt)
         m_selectedLayer->Selected(false);
     
     m_selectedLayer = (LayerItem*)((wxCheckBox*)evt.GetEventObject())->GetParent();
+    m_canvas->SetActiveLayer(m_selectedLayer->GetId() );
 
     evt.Skip();    
 }
