@@ -29,7 +29,7 @@ LayersPanel::LayersPanel(wxWindow* parent, Canvas* c) : wxPanel(parent)
     m_layersContainer->Add(layer1);
 
     layers.insert({1, layer1});
-    m_canvas->AddLayer(m_selectedLayer->GetId(), new Layer() );
+    m_canvas->AddLayer(m_selectedLayer->GetId(), new Layer(m_selectedLayer->GetId() ) );
     m_canvas->SetActiveLayer(m_selectedLayer->GetId() );
 
     m_mainContainer->Add(m_layersContainer, 3, wxALIGN_LEFT, 0);

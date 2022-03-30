@@ -40,7 +40,7 @@ void Canvas::OnDraw(wxDC& dc)
     dc.SetPen(pen);
 
     DrawLayers(dc);
-    // DrawBackground(dc);
+    DrawBackground(dc);
     DrawGrid(dc);
     DrawActiveSprite(dc);
 };
@@ -117,10 +117,11 @@ void Canvas::DrawLayers(wxDC& dc)
     {
         if((l.second->GetBitmap() )->IsOk() )
         {
-            wxBitmap* bm = l.second->GetSubBitmap(GetVisibleBegin().GetCol()*m_initialTileSize,
-                                GetVisibleBegin().GetRow()*m_initialTileSize,
-                                GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize,
-                                GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleEnd().GetRow()*m_initialTileSize );
+            wxBitmap* bm = new wxBitmap( (l.second->GetBitmap() )->GetSubBitmap( wxRect(GetVisibleBegin().GetCol()*m_initialTileSize,
+                                        GetVisibleBegin().GetRow()*m_initialTileSize,
+                                        GetVisibleEnd().GetCol()*m_initialTileSize - GetVisibleBegin().GetCol()*m_initialTileSize,
+                                        GetVisibleEnd().GetRow()*m_initialTileSize - GetVisibleBegin().GetRow()*m_initialTileSize ) ) 
+                            );
             
             wxImage* i = new wxImage(bm->ConvertToImage() );
             i->Rescale( (GetVisibleEnd().GetCol() - GetVisibleBegin().GetCol() )*m_tileSize,
@@ -166,15 +167,16 @@ void Canvas::DrawBackground(wxDC& dc)
         wxMemoryDC memdc(bg);
         memdc.Clear();
 
-        if(m_backgroundBm.IsOk() )
+        if(m_activeLayer->GetBitmap()->IsOk() )
         {
-            memdc.DrawBitmap(m_backgroundBm, 0, 0);
+            memdc.DrawBitmap((*m_activeLayer->GetBitmap() ), 0, 0);
         }
 
         wxImage i = m_activeBitmap.ConvertToImage();
         i.Rescale( (i.GetWidth()/m_initialTileSize)*m_initialTileSize, (i.GetHeight()/m_initialTileSize)*m_initialTileSize);
         memdc.DrawBitmap(i, colIndex*m_initialTileSize, rowIndex*m_initialTileSize);
-        m_backgroundBm = wxBitmap(memdc.GetAsBitmap() );
+        wxBitmap bm = memdc.GetAsBitmap();
+        m_activeLayer->SetBitmap(bm); 
         memdc.SelectObject(wxNullBitmap);
         m_tmpBitmap = wxNullBitmap;
 

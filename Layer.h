@@ -11,11 +11,13 @@ class Layer
         bool m_active;
 
     public:
-        Layer();
+        Layer(int id);
         ~Layer();
 
         wxBitmap* GetBitmap();
-        wxBitmap* GetSubBitmap(int x, int y, int w, int h);
+        void SetBitmap(wxBitmap& bm);
+
+        int GetId();
 };
 
 #endif

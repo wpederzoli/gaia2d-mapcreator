@@ -1,8 +1,9 @@
 #include "Layer.h"
 
-Layer::Layer()
+Layer::Layer(int id)
 {
     m_bitMap = new wxBitmap();
+
 };
 
 Layer::~Layer() {};
@@ -12,7 +13,14 @@ wxBitmap* Layer::GetBitmap()
     return m_bitMap;  
 };
 
-wxBitmap* Layer::GetSubBitmap(int x, int y, int w, int h) 
+void Layer::SetBitmap(wxBitmap& bm) 
 {
-    return new wxBitmap(m_bitMap->GetSubBitmap(wxRect(x, y, w, h) ) );
+    wxBitmap* tmp = m_bitMap;
+    m_bitMap = new wxBitmap(bm);
+    delete tmp;    
+};
+
+int Layer::GetId() 
+{
+    return m_id;    
 };
